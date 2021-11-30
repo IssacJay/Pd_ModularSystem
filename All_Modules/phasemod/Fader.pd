@@ -1,0 +1,16 @@
+#N canvas 652 264 491 348 10;
+#X obj 23 103 outlet;
+#X text 142 12 When the change button is pressed in the master patch
+\, random generates a ratio value.;
+#X text 89 93 The value change is ramped over a time period set in
+the master patch.;
+#X obj 23 17 route \$1;
+#X obj 23 37 t b;
+#X obj 23 -3 r pm_init;
+#X obj 23 64 random 9;
+#X obj 23 84 + 1;
+#X connect 3 0 4 0;
+#X connect 4 0 6 0;
+#X connect 5 0 3 0;
+#X connect 6 0 7 0;
+#X connect 7 0 0 0;

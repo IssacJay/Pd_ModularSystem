@@ -1,0 +1,58 @@
+#N canvas 19 37 679 760 10;
+#X floatatom 104 116 5 1 100 1 Ratio - -;
+#X obj 258 129 vsl 15 70 0 1 0 0 empty empty Vol 0 -9 0 10 -99865 -1
+-1 6900 1;
+#X obj 300 66 random 100;
+#X obj 300 87 / 100;
+#X obj 104 75 inlet;
+#X obj 300 108 adsrfader;
+#X text 417 100 When the change button is pressed in the master patch
+\, random generates a random volume position.;
+#X text 370 302 The output of the volume slider is made into a list
+with the creation argument (operator number 1-6) placed before it.
+It is then sent \, and will be recieved by the appropriete operator
+in the actual synth patch., f 38;
+#X text -221 180 The output of the ratio is made into a list with the
+creation argument (operator number 1-6) placed before it. It is then
+sent \, and will be recieved by the appropriete operator in the actual
+synth patch., f 38;
+#X obj 104 132 masteradsr \$1 \$2;
+#X obj 18 295 s \$1_ratio;
+#X obj 261 310 f \$2;
+#X obj 261 357 s \$1_opvolume;
+#X text 102 100 Operator;
+#X obj 17 173 t b f;
+#X obj 18 277 pack f f;
+#X obj 17 193 f \$2;
+#X obj 261 277 t b f;
+#X obj 261 335 pack f f, f 14;
+#X obj 300 27 route \$1;
+#X obj 300 47 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 300 7 r pm_init;
+#X obj 54 52 route \$2;
+#X obj 165 77 route \$2;
+#X obj 165 57 r \$1_pm_volume_slider;
+#X obj 54 32 r \$1_pm_ratio_nbx;
+#X connect 0 0 14 0;
+#X connect 1 0 17 0;
+#X connect 2 0 3 0;
+#X connect 3 0 5 0;
+#X connect 4 0 0 0;
+#X connect 5 0 1 0;
+#X connect 11 0 18 0;
+#X connect 14 0 16 0;
+#X connect 14 1 15 1;
+#X connect 15 0 10 0;
+#X connect 16 0 15 0;
+#X connect 17 0 11 0;
+#X connect 17 1 18 1;
+#X connect 18 0 12 0;
+#X connect 19 0 20 0;
+#X connect 20 0 2 0;
+#X connect 21 0 19 0;
+#X connect 22 0 0 0;
+#X connect 23 0 1 0;
+#X connect 24 0 23 0;
+#X connect 25 0 22 0;
+#X coords 0 -1 1 1 180 105 2 100 100;

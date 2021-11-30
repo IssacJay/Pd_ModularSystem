@@ -1,0 +1,13 @@
+#N canvas 739 114 450 300 10;
+#X obj 197 23 inlet~;
+#X obj 35 199 outlet~;
+#X obj 182 55 +~;
+#X obj 183 80 delwrite~ \$0-comb 1000;
+#X text 181 99 \$0 is unique canvas value for each abstraction;
+#X obj 34 110 delread~ \$0-comb \$1;
+#X obj 46 170 *~ \$2;
+#X connect 0 0 2 1;
+#X connect 2 0 3 0;
+#X connect 5 0 1 0;
+#X connect 5 0 6 0;
+#X connect 6 0 2 0;

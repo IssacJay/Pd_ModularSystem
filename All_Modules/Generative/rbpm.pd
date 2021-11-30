@@ -1,0 +1,30 @@
+#N canvas 408 151 834 527 10;
+#X obj 302 205 f;
+#X obj 349 206 + 1;
+#X floatatom 302 269 5 0 0 0 - - -;
+#X floatatom 252 229 5 0 0 0 - - -;
+#X obj 302 336 outlet;
+#X obj 302 286 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 302 225 mod 4;
+#X text 377 205 Feedback loop used as counter;
+#X text 343 227 Modulo calculates the remainder from the division of
+4 A 1 is added so that the count now goes from 1-4.;
+#X text 347 267 BEAT COUNTER (4 beats per bar);
+#X obj 304 155 r tomod;
+#X text 158 50 rbpm (recieve BPM);
+#X obj 302 306 spigot, f 9;
+#X obj 353 287 inlet;
+#X text 353 155 Recieves the master count from the master scale patch
+;
+#X text 389 287 Turns output on or off without stopping count.;
+#X connect 0 0 1 0;
+#X connect 0 0 3 0;
+#X connect 0 0 6 0;
+#X connect 1 0 0 1;
+#X connect 2 0 5 0;
+#X connect 5 0 12 0;
+#X connect 6 0 2 0;
+#X connect 10 0 0 0;
+#X connect 12 0 4 0;
+#X connect 13 0 12 1;

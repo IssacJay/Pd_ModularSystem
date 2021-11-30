@@ -1,0 +1,423 @@
+#N canvas 273 24 777 700 10;
+#X declare -lib cyclone;
+#X declare -lib zexy;
+#X declare -lib zexy;
+#N canvas 0 23 450 300 (subpatch) 0;
+#X array Generative_Scale_\$0 15 float 3;
+#A 0 48 50 52 53 55 57 59 60 62 64 65 67 69 71 72;
+#X coords 0 84 15 36 100 100 1 0 0;
+#X restore 102 128 graph;
+#X floatatom -116 476 5 0 0 0 - - -;
+#X obj 592 441 t b f;
+#X floatatom 666 491 5 0 0 0 - - -;
+#X obj 591 490 random 100;
+#X obj 591 514 moses, f 13;
+#X text 434 100 BPM;
+#X floatatom 618 465 5 0 0 0 - - -;
+#X obj 209 122 vradio 15 1 1 7 \$1_generativescale_mode_s \$1_generativescale_mode_r
+empty 0 -8 0 10 -204800 -1 -1 0;
+#X text 226 123 Ionian;
+#X text 227 138 Dorian;
+#X text 225 154 Phrygian;
+#X text 226 168 Lydian;
+#X text 228 198 Aeolian;
+#X text 226 213 Lokrian;
+#X text 228 184 Mixolydian;
+#X obj -116 622 outlet;
+#X obj -116 596 pack, f 5;
+#X obj 591 535 drunk 60 20;
+#X obj 591 554 + 67;
+#N canvas 0 23 450 300 (subpatch) 0;
+#X array Probability_Sequencer_Voice_\$0 16 float 3;
+#A 0 90 20 35 15 80 25 15 40 80 35 25 25 95 10 15 25;
+#X coords 0 99 16 0 150 100 1 0 0;
+#X restore 286 127 graph;
+#X obj -149 -18 declare -lib cyclone;
+#X obj -115 456 tabread Generative_Scale_\$0;
+#X obj 666 463 tabread Probability_Sequencer_Voice_\$0;
+#X obj 440 136 vradio 15 1 1 6 \$1_generativescale_probability_s \$1_generativescale_probability_r
+empty 0 -8 0 10 -204800 -1 -1 0;
+#X text 455 150 All 100%;
+#X text 455 164 All 50%;
+#X text 455 181 All 0%;
+#X text 76 379 The drunk object chooses an x coordinate of the generative
+scale at random- however \, the distance between consectutive values
+cannot exteed the 'max step size' stated.;
+#X text 56 441 Reads from the array \, based on the x coordinate stated
+from drunk, f 17;
+#X text -78 596 Packed in MIDI form;
+#X text -73 624 MIDI output;
+#X floatatom 592 578 5 0 0 0 - - -;
+#X obj -88 575 f;
+#X obj -116 523 t f b;
+#X msg 666 598 0;
+#X obj -116 496 change;
+#X text 713 483 The counter object allows the tabread object to cycle
+through each coordinate of the probability sequencer consecutivley.
+The random obect outputs random values from 0 to 100 \, which are passed
+into the moses object- if the value is above the probaility value then
+drunk will create a value between 0-59 \, with each consecutive value
+being +-20 \, which is then outputted to +69 \, which creates a value
+up to 127 which is used as a velocity value. If the random number is
+below the probaility \, then zero velocity is sent.;
+#X text -68 496 Only outputs if the next note is different;
+#X text 103 100 GENERATIVE MIDI MODULE;
+#X obj 5 625 outlet;
+#X obj 592 635 outlet;
+#X text 51 625 MIDI Note;
+#X text 637 639 MIDI velocity;
+#X text 102 244 MIDI OUT;
+#X text 278 244 NOTE OUT;
+#X text 436 242 VELOCITY OUT;
+#X obj 458 102 tgl 15 1 \$1_generativescale_on/off empty ON/OFF 17
+7 0 10 -262144 -1 -1 1 1;
+#X text 456 135 Demo;
+#X text 455 210 Falling 2;
+#X text 456 195 Falling;
+#X floatatom 103 231 5 0 0 1 Note #1_generativescale_notevalue -;
+#X floatatom 171 231 5 0 0 1 Velocity #1_generativescale_velocityvalue
+-;
+#X obj -117 575 +;
+#X obj 388 230 nbx 3 14 -36 24 0 1 \$1_gens_transposition_nbx_s \$1_gens_transposition_nbx_r
+Transposition 40 8 0 10 -262144 -1 -1 0 256;
+#X obj 3 528 r \$1_gens_transposition_nbx_s;
+#X obj 398 101 nbx 3 14 0 250 0 1 \$1_generativescale_bpm_nbx_s \$1_generativescale_bpm_nbx_r
+empty 0 -8 0 10 -262144 -1 -1 120 256;
+#X obj 281 230 nbx 2 14 0 15 0 1 \$1_generativescale_maxstep_nbx_s
+\$1_generativescale_maxstep_nbx_r empty 0 -8 0 10 -262144 -1 -1 3 256
+;
+#X text 310 229 Max Step Size;
+#X obj 379 101 tgl 15 1 \$1_generativescale_bpm_tog_s \$1_generativescale_bpm_tog_r
+empty 17 7 0 10 -262144 -1 -1 0 1;
+#X text 295 100 Set Custom BPM;
+#N canvas 598 23 634 569 modes 0;
+#X text 212 -276 All 7 different mode MIDI values across two octaves
+sent to the generative scale, f 31;
+#X obj 99 -269 sel 0;
+#X obj 99 -212 sel 1;
+#X obj 99 -169 sel 2;
+#X obj 99 -125 sel 3;
+#X obj 99 -81 sel 4;
+#X obj 99 -37 sel 5;
+#X obj 99 7 sel 6;
+#X msg 149 -72 \; Generative_Scale_\$1 0 48 50 52 53 55 57 58 60 62
+64 65 67 69 70 72;
+#X obj 99 -248 f \$0;
+#X msg 150 -238 \; Generative_Scale_\$1 0 48 50 52 53 55 57 59 60 62
+64 65 67 69 71 72;
+#X msg 149 -195 \; Generative_Scale_\$1 0 48 50 51 53 55 57 58 60 62
+63 65 67 69 70 72;
+#X obj 99 -192 f \$0;
+#X obj 99 -148 f \$0;
+#X obj 99 -104 f \$0;
+#X obj 99 -62 f \$0;
+#X obj 99 -19 f \$0;
+#X obj 99 26 f \$0;
+#X msg 148 -154 \; Generative_Scale_\$1 0 48 49 51 53 55 56 58 60 61
+64 65 67 68 70 72;
+#X msg 148 -114 \; Generative_Scale_\$1 0 48 50 52 53 55 57 59 60 62
+64 65 67 69 71 72;
+#X msg 150 -32 \; Generative_Scale_\$1 0 48 50 51 53 55 56 58 60 62
+63 65 67 68 70 72;
+#X msg 150 11 \; Generative_Scale_\$1 0 48 49 51 53 54 56 58 60 61
+63 65 66 68 70 72;
+#X text -83 -270 Sel objects send a bang when the toggle value matches
+the sel value, f 29;
+#X text -124 -217 f stores the patch number which is read by the \$1
+in the message box. This enables the array to communicate with the
+messages \, and allow for multiple versions of this abstraction working
+in one patch., f 36;
+#X obj -107 -93 r \$1_generativescale_mode_s;
+#X connect 1 0 9 0;
+#X connect 2 0 12 0;
+#X connect 3 0 13 0;
+#X connect 4 0 14 0;
+#X connect 5 0 15 0;
+#X connect 6 0 16 0;
+#X connect 7 0 17 0;
+#X connect 9 0 10 0;
+#X connect 12 0 11 0;
+#X connect 13 0 18 0;
+#X connect 14 0 19 0;
+#X connect 15 0 8 0;
+#X connect 16 0 20 0;
+#X connect 17 0 21 0;
+#X connect 24 0 1 0;
+#X connect 24 0 7 0;
+#X connect 24 0 6 0;
+#X connect 24 0 5 0;
+#X connect 24 0 4 0;
+#X connect 24 0 3 0;
+#X connect 24 0 2 0;
+#X restore 102 81 pd modes;
+#N canvas 830 202 983 435 probaility 0;
+#X text 507 -122 Preset Probaility settings sent to each sequencer
+arrays., f 19;
+#X msg 118 -108 \; Probability_Sequencer_Voice_\$1 0 50 50 50 50 50
+50 50 50 50 50 50 50 50 50 50 50;
+#X msg 118 -172 \; Probability_Sequencer_Voice_\$1 0 100 100 100 100
+100 100 100 100 100 100 100 100 100 100 100 100;
+#X msg 116 -222 \; Probability_Sequencer_Voice_\$1 0 90 20 35 15 80
+25 15 40 80 35 25 25 95 10 15 25;
+#X msg 118 -54 \; Probability_Sequencer_Voice_\$1 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0;
+#X msg 119 -10 \; Probability_Sequencer_Voice_\$1 0 91.9286 74.9571
+65.0571 53.7429 89.1 70.7139 63.6424 52.3286 86.2713 67.8857 60.8138
+50.9143 89.1 66.4714 57.9857 52.3286;
+#X obj 59 78 f \$0;
+#X msg 119 43 \; Probability_Sequencer_Voice_\$1 0 97.5857 79.2001
+67.8858 49.5003 36.7718 26.8718 16.9719 2.82914 96.171 76.3715 63.643
+48.086 36.7718 22.629 7.07199 2.82916;
+#X obj 58 60 sel 5;
+#X obj 58 23 f \$0;
+#X obj 57 -33 f \$0;
+#X obj 57 5 sel 4;
+#X obj 56 -51 sel 3;
+#X obj 56 -88 f \$0;
+#X obj 55 -106 sel 2;
+#X obj 55 -140 f \$0;
+#X obj 54 -199 f \$0;
+#X obj 53 -218 sel 0;
+#X obj 54 -161 sel 1;
+#X obj -167 -190 r \$1_generativescale_probability_s;
+#X floatatom -167 -170 5 0 0 0 - - -;
+#X connect 6 0 7 0;
+#X connect 8 0 6 0;
+#X connect 9 0 5 0;
+#X connect 10 0 4 0;
+#X connect 11 0 9 0;
+#X connect 12 0 10 0;
+#X connect 13 0 1 0;
+#X connect 14 0 13 0;
+#X connect 15 0 2 0;
+#X connect 16 0 3 0;
+#X connect 17 0 16 0;
+#X connect 18 0 15 0;
+#X connect 19 0 17 0;
+#X connect 19 0 8 0;
+#X connect 19 0 11 0;
+#X connect 19 0 12 0;
+#X connect 19 0 14 0;
+#X connect 19 0 18 0;
+#X connect 19 0 20 0;
+#X restore 288 81 pd probaility;
+#X obj 471 654 s \$1_generativescale_velocityvalue;
+#X obj -211 660 s \$1_generativescale_notevalue;
+#N canvas 848 298 592 392 bpm 0;
+#X obj 10 68 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1 1
+;
+#X obj 10 46 r \$1_generativescale_on/off;
+#X obj 10 92 bpm;
+#X obj 362 64 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X obj 362 42 r \$1_generativescale_on/off;
+#X obj 217 94 spigot;
+#X obj 11 181 spigot;
+#X obj 217 179 spigot;
+#X obj 44 140 r \$1_generativescale_bpm_tog_s;
+#X obj 153 158 == 0;
+#X obj 11 254 outlet;
+#X obj 35 67 r \$1_generativescale_bpm_nbx_s;
+#X obj 217 43 r masterclock_bangs;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X connect 2 0 6 0;
+#X connect 3 0 5 1;
+#X connect 4 0 3 0;
+#X connect 5 0 7 0;
+#X connect 6 0 10 0;
+#X connect 7 0 10 0;
+#X connect 8 0 6 1;
+#X connect 8 0 9 0;
+#X connect 9 0 7 1;
+#X connect 11 0 2 1;
+#X connect 12 0 5 0;
+#X restore 4 370 pd bpm;
+#N canvas 647 350 592 392 bpm 0;
+#X obj 10 68 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1 1
+;
+#X obj 10 46 r \$1_generativescale_on/off;
+#X obj 10 93 bpm;
+#X obj 362 64 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X obj 362 42 r \$1_generativescale_on/off;
+#X obj 217 94 spigot;
+#X obj 11 181 spigot;
+#X obj 216 178 spigot;
+#X obj 44 140 r \$1_generativescale_bpm_tog_s;
+#X obj 153 158 == 0;
+#X obj 11 254 outlet;
+#X obj 35 67 r \$1_generativescale_bpm_nbx_s;
+#X obj 217 43 r masterclock_bangs;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X connect 2 0 6 0;
+#X connect 3 0 5 1;
+#X connect 4 0 3 0;
+#X connect 5 0 7 0;
+#X connect 6 0 10 0;
+#X connect 7 0 10 0;
+#X connect 8 0 6 1;
+#X connect 8 0 9 0;
+#X connect 9 0 7 1;
+#X connect 11 0 2 1;
+#X connect 12 0 5 0;
+#X restore 593 383 pd bpm;
+#X floatatom 4 410 5 0 0 0 - - -;
+#X obj 4 390 drunk 15 3;
+#X obj 592 414 counter 0 15;
+#N canvas 726 43 787 643 save 0;
+#X obj 202 250 textfile;
+#X msg 470 188 clear;
+#X obj 205 -33 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj -12 177 t b b b;
+#X msg 118 208 bang;
+#X msg 155 208 rewind;
+#X obj 205 -54 r save_parameters;
+#X obj -11 103 r recall_parameters;
+#X obj 117 -29 loadbang;
+#X obj 117 -6 f \$1;
+#X obj -12 203 f;
+#X obj 204 20 f;
+#X obj 4 141 t b f;
+#X obj 204 0 t b b b, f 63;
+#X obj -11 123 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#N canvas 704 63 736 667 save 0;
+#X obj 150 412 outlet;
+#X obj 143 204 inlet;
+#X obj 197 262 f;
+#X msg 213 329 set \$1 \$2 \$3 \$4 \$5 \$6 \$7 \$8;
+#X obj 295 253 r \$1_generativescale_probability_s;
+#X obj 279 234 r \$1_generativescale_mode_s;
+#X obj 329 288 r \$1_generativescale_bpm_tog_s;
+#X obj 312 271 r \$1_generativescale_bpm_nbx_s;
+#X obj 263 214 r \$1_gens_transposition_nbx_s;
+#X obj 212 108 r \$1_generativescale_maxstep_nbx_s;
+#X obj 245 173 array get Generative_Scale_\$0;
+#X obj 143 224 t b b b;
+#X obj 229 131 array get Probability_Sequencer_Voice_\$0;
+#X obj 556 65 declare -lib zexy;
+#X obj 212 308 pack f s s f f f f f;
+#X obj 245 193 l2s _;
+#X obj 229 151 l2s _;
+#X connect 1 0 11 0;
+#X connect 2 0 14 0;
+#X connect 3 0 0 0;
+#X connect 4 0 14 5;
+#X connect 5 0 14 4;
+#X connect 6 0 14 7;
+#X connect 7 0 14 6;
+#X connect 8 0 14 3;
+#X connect 9 0 2 1;
+#X connect 10 0 15 0;
+#X connect 11 0 2 0;
+#X connect 11 1 12 0;
+#X connect 11 2 10 0;
+#X connect 12 0 16 0;
+#X connect 14 0 3 0;
+#X connect 15 0 14 2;
+#X connect 16 0 14 1;
+#X restore 390 129 pd save receives;
+#N canvas 345 121 735 694 save 0;
+#X obj 37 37 inlet;
+#X obj 38 58 unpack f s s f f f f f;
+#X obj 167 80 s \$1_generativescale_bpm_tog_r;
+#X obj 148 98 s \$1_generativescale_bpm_nbx_r;
+#X obj 130 117 s \$1_generativescale_probability_r;
+#X obj 111 137 s \$1_generativescale_mode_r;
+#X obj 93 156 s \$1_gens_transposition_nbx_r;
+#X obj 74 183 s2l _;
+#X obj 74 204 array set Generative_Scale_\$0;
+#X obj 55 226 s2l _;
+#X obj 55 245 array set Probability_Sequencer_Voice_\$0;
+#X obj 35 265 s \$1_generativescale_maxstep_nbx_r;
+#X connect 0 0 1 0;
+#X connect 1 0 11 0;
+#X connect 1 1 9 0;
+#X connect 1 2 7 0;
+#X connect 1 3 6 0;
+#X connect 1 4 5 0;
+#X connect 1 5 4 0;
+#X connect 1 6 3 0;
+#X connect 1 7 2 0;
+#X connect 7 0 8 0;
+#X connect 9 0 10 0;
+#X restore 202 270 pd save sends;
+#X obj 179 -71 r \$1_generativescale_savebutton;
+#X obj -36 85 r \$1_generativescale_recallbutton;
+#X msg 204 55 write Generative_scale_\$1.txt;
+#X msg -12 228 read Generative_scale_\$1.txt;
+#X obj 605 -1 declare -lib zexy;
+#X connect 0 0 16 0;
+#X connect 1 0 0 0;
+#X connect 2 0 13 0;
+#X connect 3 0 10 0;
+#X connect 3 1 4 0;
+#X connect 3 2 5 0;
+#X connect 4 0 0 0;
+#X connect 5 0 0 0;
+#X connect 6 0 2 0;
+#X connect 7 0 14 0;
+#X connect 8 0 9 0;
+#X connect 9 0 11 1;
+#X connect 9 0 12 0;
+#X connect 10 0 20 0;
+#X connect 11 0 19 0;
+#X connect 12 0 3 0;
+#X connect 12 1 10 1;
+#X connect 13 0 11 0;
+#X connect 13 1 15 0;
+#X connect 13 2 1 0;
+#X connect 14 0 3 0;
+#X connect 15 0 0 0;
+#X connect 17 0 2 0;
+#X connect 18 0 3 0;
+#X connect 19 0 0 0;
+#X connect 20 0 0 0;
+#X restore 691 157 pd save mechanism;
+#X text 400 83 \$1_generativescale_bpm_nbx_s/r;
+#X text 400 73 \$1_generativescale_bpm_tog_s/r;
+#X text 520 124 \$1_generativescale_probability_s/r;
+#X text 100 259 \$1_generativescale_mode_s/r;
+#X text 270 271 \$1_generativescale_maxstep_nbx_s/r;
+#X text 389 257 \$1_gens_transposition_nbx_s/r;
+#X obj 438 117 bng 15 250 50 0 \$1_generativescale_savebutton empty
+Save 17 7 0 5 -262130 -1 -258113;
+#X obj 475 117 bng 15 250 50 0 \$1_generativescale_recallbutton empty
+Recall 17 7 0 5 -262130 -1 -258113;
+#X connect 1 0 36 0;
+#X connect 2 0 4 0;
+#X connect 2 1 7 0;
+#X connect 2 1 23 0;
+#X connect 3 0 5 1;
+#X connect 4 0 5 0;
+#X connect 5 0 18 0;
+#X connect 5 1 35 0;
+#X connect 17 0 16 0;
+#X connect 17 0 64 0;
+#X connect 18 0 19 0;
+#X connect 19 0 32 0;
+#X connect 22 0 1 0;
+#X connect 23 0 3 0;
+#X connect 32 0 33 1;
+#X connect 32 0 41 0;
+#X connect 32 0 63 0;
+#X connect 33 0 17 1;
+#X connect 34 0 40 0;
+#X connect 34 0 53 0;
+#X connect 34 1 33 0;
+#X connect 35 0 33 1;
+#X connect 35 0 41 0;
+#X connect 35 0 63 0;
+#X connect 36 0 34 0;
+#X connect 53 0 17 0;
+#X connect 55 0 53 1;
+#X connect 57 0 68 2;
+#X connect 65 0 68 0;
+#X connect 66 0 69 0;
+#X connect 68 0 22 0;
+#X connect 68 0 67 0;
+#X connect 69 0 2 0;
+#X coords 0 -1 1 1 415 158 2 100 100;

@@ -1,0 +1,39 @@
+#N canvas 366 168 834 527 10;
+#X obj 301 147 metro 200;
+#X obj 352 112 expr ((60/$f2)*1000);
+#X text 406 44 BPM, f 6;
+#X obj 355 44 inlet;
+#X obj 299 73 inlet;
+#X text 480 106 Converts BPM value set from number box into ms for
+the metro object to output bangs at the corespnoding time interval
+\, and outputted into the drunk object., f 38;
+#X obj 355 65 t b f;
+#X obj 302 205 f;
+#X obj 302 225 mod 4;
+#X obj 349 206 + 1;
+#X floatatom 302 269 5 0 0 0 - - -;
+#X obj 302 245 + 1;
+#X text 347 267 BEAT COUNTER;
+#X floatatom 393 212 5 0 0 0 - - -;
+#X floatatom 201 193 5 0 0 0 - - -;
+#X obj 302 305 outlet;
+#X obj 263 100 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 302 286 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X connect 0 0 7 0;
+#X connect 1 0 0 1;
+#X connect 3 0 6 0;
+#X connect 4 0 0 0;
+#X connect 6 0 1 0;
+#X connect 6 1 1 1;
+#X connect 7 0 8 0;
+#X connect 7 0 9 0;
+#X connect 7 0 14 0;
+#X connect 8 0 11 0;
+#X connect 9 0 7 1;
+#X connect 10 0 17 0;
+#X connect 11 0 10 0;
+#X connect 13 0 8 1;
+#X connect 16 0 0 0;
+#X connect 17 0 15 0;

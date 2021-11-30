@@ -1,0 +1,61 @@
+#N canvas 407 148 1033 672 10;
+#X obj 24 468 +~;
+#X obj 24 489 cos~;
+#X obj 24 405 phasor~ 700;
+#X obj 24 569 outlet~;
+#X obj 24 520 *~, f 14;
+#X obj 24 361 mtof;
+#X obj 39 446 inlet~;
+#X obj 24 382 *~, f 7;
+#X floatatom 104 115 5 1 100 1 Ratio - -;
+#X obj 257 141 vsl 15 70 0 1 0 0 empty empty Vol 0 -9 0 10 -99865 -1
+-1 0 1;
+#X obj 24 541 *~, f 41;
+#X obj 23 281 stripnote;
+#X obj 64 184 f;
+#X floatatom 104 73 5 0 0 0 - - -;
+#X text -147 24 The ratio messages are recived from the master operators
+\, however 'route' chooses the matching one based off matching operator
+numbers (creation Arguments), f 37;
+#X text 372 22 The volume messages are recived from the master operators
+\, however 'route' chooses the matching one based off matching operator
+numbers (creation Arguments), f 37;
+#X text 218 77 MIDI inlet;
+#X text -122 281 Removes note off values;
+#X text -187 361 MIDi value converted to frequency;
+#X text -178 405 Phasor ramps from 0-1 cyclically;
+#X text -239 440 Phase Modulation inlet connected to the outlet of
+other operators. The inlet is summed with the output of phasor \, before
+the value is sent into cos~. This causes the phase of cos to be modulated
+by other operators over time., f 42;
+#X text 119 518 ADSR output \, controlling volume of oscillator over
+time.;
+#X text 280 542 Master output fader.;
+#X text 126 272 ADSR Abstraction. Please open;
+#X obj 104 143 adsrmult \$1 \$2;
+#X obj 104 13 r \$1_ratio;
+#X obj 259 13 r \$1_opvolume;
+#X obj 104 51 route \$2;
+#X obj 261 50 route \$2;
+#X obj 164 74 inlet;
+#X connect 0 0 1 0;
+#X connect 1 0 4 0;
+#X connect 2 0 0 0;
+#X connect 4 0 10 0;
+#X connect 5 0 7 0;
+#X connect 6 0 0 1;
+#X connect 7 0 2 0;
+#X connect 8 0 12 0;
+#X connect 9 0 10 1;
+#X connect 10 0 3 0;
+#X connect 11 0 5 0;
+#X connect 12 0 7 1;
+#X connect 13 0 8 0;
+#X connect 24 0 4 1;
+#X connect 25 0 27 0;
+#X connect 26 0 28 0;
+#X connect 27 0 13 0;
+#X connect 28 0 9 0;
+#X connect 29 0 11 0;
+#X connect 29 0 24 0;
+#X coords 0 -1 1 1 175 150 1 100 100;

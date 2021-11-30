@@ -1,0 +1,73 @@
+#N canvas 56 84 792 686 10;
+#X obj 118 102 hsl 128 15 5 5000 0 0 empty empty A -13 10 0 10 -204800
+-1 -1 0 1;
+#X obj 118 119 hsl 128 15 5 5000 0 0 empty empty D -12 10 0 10 -204800
+-1 -1 0 1;
+#X obj 118 136 hsl 128 15 0 1 0 0 empty empty S -12 10 0 10 -204786
+-1 -1 0 1;
+#X obj 118 153 hsl 128 15 5 5000 0 0 empty empty R -12 10 0 10 -204800
+-1 -1 0 1;
+#X obj -83 260 list prepend attack;
+#X obj -68 301 list prepend decay;
+#X obj -43 345 list prepend sustain;
+#X obj 0 382 list prepend release;
+#X text 196 27 When the change button is pressed in the master patch
+\, random generates random ADSR positions.;
+#X text 197 310 The output of each ADSR parameter is made into a list
+with the creation argument (operator number 1-6) placed first \, the
+parameter type second \, and the parameter value last. They are then
+sent \, and will be recieved by the appropriete operator adsr in the
+actual synth patch., f 38;
+#X obj -79 496 s \$1_opadsr;
+#X obj -33 433 l2s _;
+#X obj -79 467 pack f s;
+#X obj -79 396 t b l;
+#X obj -77 436 f \$2;
+#X obj -203 33 random 4995;
+#X obj -203 54 + 5;
+#X obj -126 32 random 4995;
+#X obj -126 53 + 5;
+#X obj 26 31 random 4995;
+#X obj 26 52 + 5;
+#X obj -51 32 random 100;
+#X obj -51 53 / 100;
+#X obj -203 -42 r pm_init;
+#X obj -203 -4 t b;
+#X obj -203 -22 route \$1;
+#X obj -175 136 route \$2;
+#X obj -175 156 route attack decay sustain release;
+#X obj -175 116 r \$1_pm_adsr_sliders;
+#X connect 0 0 4 0;
+#X connect 1 0 5 0;
+#X connect 2 0 6 0;
+#X connect 3 0 7 0;
+#X connect 4 0 13 0;
+#X connect 5 0 13 0;
+#X connect 6 0 13 0;
+#X connect 7 0 13 0;
+#X connect 11 0 12 1;
+#X connect 12 0 10 0;
+#X connect 13 0 14 0;
+#X connect 13 1 11 0;
+#X connect 14 0 12 0;
+#X connect 15 0 16 0;
+#X connect 16 0 0 0;
+#X connect 17 0 18 0;
+#X connect 18 0 1 0;
+#X connect 19 0 20 0;
+#X connect 20 0 3 0;
+#X connect 21 0 22 0;
+#X connect 22 0 2 0;
+#X connect 23 0 25 0;
+#X connect 24 0 15 0;
+#X connect 24 0 21 0;
+#X connect 24 0 19 0;
+#X connect 24 0 17 0;
+#X connect 25 0 24 0;
+#X connect 26 0 27 0;
+#X connect 27 0 0 0;
+#X connect 27 1 1 0;
+#X connect 27 2 2 0;
+#X connect 27 3 3 0;
+#X connect 28 0 26 0;
+#X coords 0 -1 1 1 150 70 2 100 100;

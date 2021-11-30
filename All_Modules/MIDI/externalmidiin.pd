@@ -1,0 +1,22 @@
+#N canvas 237 360 606 408 10;
+#X obj 270 120 notein;
+#X obj 270 252 outlet;
+#X obj 286 232 outlet;
+#X obj 318 162 ==;
+#X obj 286 186 spigot;
+#X obj 269 208 spigot, f 13;
+#X text 101 127 Note;
+#X text 151 127 Velocity;
+#X obj 103 113 nbx 2 14 0 127 0 1 \$1_emi_channel_nbx empty Channel
+30 7 0 10 -262144 -1 -1 0 256;
+#X text 100 100 EXTERNAL MIDI IN;
+#X obj 332 142 r \$1_emi_channel_nbx;
+#X connect 0 0 5 0;
+#X connect 0 1 4 0;
+#X connect 0 2 3 0;
+#X connect 3 0 4 1;
+#X connect 3 0 5 1;
+#X connect 4 0 2 0;
+#X connect 5 0 1 0;
+#X connect 10 0 3 1;
+#X coords 0 -1 1 1 105 42 2 100 100;

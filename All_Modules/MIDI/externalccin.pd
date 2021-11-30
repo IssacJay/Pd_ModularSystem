@@ -1,0 +1,38 @@
+#N canvas 151 372 562 361 10;
+#X obj 277 296 outlet;
+#X obj 379 96 ==;
+#X obj 277 250 spigot, f 13;
+#X obj 152 130 nbx 2 14 0 127 0 1 \$1_ccin_channel_nbx empty Channel
+30 7 0 10 -262144 -1 -1 17 256;
+#X obj 284 40 ctlin;
+#X text 100 145 Value;
+#X text 138 145 Controller;
+#X text 100 100 EXTERNAL CC IN;
+#X obj 393 76 r \$1_ccin_channel_nbx;
+#X floatatom 103 112 5 0 0 0 - - -;
+#X floatatom 138 112 5 0 0 0 - - -;
+#X floatatom 174 112 5 0 0 0 - - -;
+#X obj 102 130 nbx 2 14 0 127 0 1 \$1_ccin_cc_nbx empty CC 30 7 0 10
+-262144 -1 -1 14 256;
+#X obj 346 164 ==;
+#X floatatom 307 275 5 0 0 0 - - -;
+#X obj 386 153 r \$1_ccin_cc_nbx;
+#X floatatom 347 194 5 0 0 0 - - -;
+#X floatatom 379 116 5 0 0 0 - - -;
+#X obj 351 135 spigot;
+#X connect 1 0 17 0;
+#X connect 2 0 0 0;
+#X connect 2 0 14 0;
+#X connect 4 0 2 0;
+#X connect 4 0 9 0;
+#X connect 4 1 10 0;
+#X connect 4 1 18 0;
+#X connect 4 2 11 0;
+#X connect 4 2 1 0;
+#X connect 8 0 1 1;
+#X connect 13 0 16 0;
+#X connect 15 0 13 1;
+#X connect 16 0 2 1;
+#X connect 17 0 18 1;
+#X connect 18 0 13 0;
+#X coords 0 -1 1 1 130 60 2 100 100;

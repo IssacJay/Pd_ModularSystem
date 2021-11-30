@@ -1,0 +1,497 @@
+#N canvas 550 174 853 538 10;
+#N canvas 207 98 566 333 (subpatch) 0;
+#X array \$1_fft_analysis_table 256 float 3;
+#A 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
+#X coords 0 1 256 0 250 80 1 0 0;
+#X restore 103 113 graph;
+#X obj 26 265 inlet~;
+#N canvas 661 173 643 640 fft 0;
+#X obj 10 16 inlet~;
+#X obj 10 79 *~;
+#X obj 10 103 rfft~;
+#X obj 12 370 *~;
+#X obj 12 525 *~;
+#X obj 12 589 outlet~;
+#X obj 43 371 *~;
+#X msg 290 36 set \$1 4;
+#X text 339 56 Set Variable window size with overlap of 4;
+#X text 118 39 Receive Hann;
+#X text 51 102 Calculate FFT;
+#X text 49 524 Multiply by Hann;
+#X text 78 370 Multiply real and imaginary parts by array;
+#X obj 25 57 tabreceive~ \$1_fft_analysis_hann;
+#X obj 290 16 r \$1_fft_analysis_windowsize_s;
+#X obj 63 588 tabwrite~ \$1_fft_analysis_table;
+#X obj 27 506 tabreceive~ \$1_fft_analysis_hann;
+#X obj 287 464 metro 250;
+#X obj 358 299 r \$1_fft_analysis_windowsize_s;
+#X obj 385 337 samplerate~;
+#X obj 358 319 t f b;
+#X obj 359 375 expr (1000/$f2)*$f1;
+#X obj 359 357 pack;
+#X floatatom 359 395 5 0 0 0 - - -;
+#X obj 290 56 switch~;
+#X obj 198 16 r switch_reset;
+#X obj 71 154 *~;
+#X obj 116 153 *~;
+#X obj 71 174 +~;
+#X obj 72 194 q8_rsqrt~;
+#X obj 87 304 * 1.5;
+#X obj 88 326 expr 1/$f1;
+#X obj 70 344 *~;
+#X obj 228 95 inlet~;
+#X obj 87 284 r \$1_fft_analysis_windowsize_s;
+#X obj 359 414 t b f;
+#X obj 228 137 *~;
+#X obj 228 161 rfft~;
+#X text 269 160 Calculate FFT;
+#X obj 243 115 tabreceive~ \$1_fft_analysis_hann;
+#X obj 229 198 *~;
+#X obj 274 197 *~;
+#X obj 229 218 +~;
+#X obj 229 238 +~ 1e-20;
+#X obj 229 258 q8_rsqrt~;
+#X obj 72 256 *~;
+#X obj 13 430 rifft~;
+#X obj 72 236 clip~;
+#X obj 117 227 expr 0.01*$f1*$f1;
+#X floatatom 139 202 5 0 0 0 - - -;
+#X obj 72 214 +~ 1e-20;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 2 0 26 0;
+#X connect 2 0 26 1;
+#X connect 2 1 6 0;
+#X connect 2 1 27 0;
+#X connect 2 1 27 1;
+#X connect 3 0 46 0;
+#X connect 4 0 5 0;
+#X connect 6 0 46 1;
+#X connect 7 0 24 0;
+#X connect 13 0 1 1;
+#X connect 14 0 7 0;
+#X connect 16 0 4 1;
+#X connect 17 0 15 0;
+#X connect 18 0 20 0;
+#X connect 19 0 22 1;
+#X connect 20 0 22 0;
+#X connect 20 1 19 0;
+#X connect 21 0 23 0;
+#X connect 22 0 21 0;
+#X connect 23 0 35 0;
+#X connect 25 0 24 0;
+#X connect 26 0 28 0;
+#X connect 27 0 28 1;
+#X connect 28 0 29 0;
+#X connect 29 0 50 0;
+#X connect 30 0 31 0;
+#X connect 31 0 32 1;
+#X connect 32 0 6 1;
+#X connect 32 0 3 1;
+#X connect 33 0 36 0;
+#X connect 34 0 30 0;
+#X connect 35 0 17 0;
+#X connect 35 1 17 1;
+#X connect 36 0 37 0;
+#X connect 37 0 40 0;
+#X connect 37 0 40 1;
+#X connect 37 1 41 0;
+#X connect 37 1 41 1;
+#X connect 39 0 36 1;
+#X connect 40 0 42 0;
+#X connect 41 0 42 1;
+#X connect 42 0 43 0;
+#X connect 43 0 44 0;
+#X connect 44 0 45 1;
+#X connect 45 0 32 0;
+#X connect 46 0 4 0;
+#X connect 47 0 45 0;
+#X connect 48 0 47 2;
+#X connect 49 0 48 0;
+#X connect 50 0 47 0;
+#X restore 26 289 pd fft amplitude multiplyer;
+#X obj 26 322 outlet~;
+#X msg 518 206 512;
+#X msg 518 225 1024;
+#X msg 518 187 256;
+#X msg 518 244 2048;
+#N canvas 683 268 757 546 Hann 0;
+#N canvas 0 23 450 278 (subpatch) 0;
+#X array \$1_fft_analysis_hann 512 float 5;
+#A 0 0 3.76701e-05 0.000150651 0.000338882 0.000602394 0.000941098
+0.00135493 0.0018439 0.00240788 0.00304678 0.00376052 0.004549 0.0054121
+0.00634968 0.00736159 0.00844771 0.00960785 0.0108418 0.0121495 0.0135306
+0.014985 0.0165124 0.0181127 0.0197855 0.0215306 0.0233478 0.0252367
+0.0271972 0.0292289 0.0313314 0.0335046 0.035748 0.0380613 0.0404442
+0.0428962 0.0454172 0.0480066 0.050664 0.0533891 0.0561815 0.0590407
+0.0619664 0.0649579 0.068015 0.0711372 0.074324 0.0775748 0.0808893
+0.0842669 0.0877071 0.0912094 0.0947732 0.0983981 0.102083 0.105829
+0.109633 0.113497 0.117418 0.121398 0.125434 0.129527 0.133675 0.137879
+0.142137 0.146449 0.150814 0.155232 0.159702 0.164223 0.168795 0.173416
+0.178087 0.182806 0.187573 0.192387 0.197247 0.202153 0.207104 0.212099
+0.217137 0.222218 0.22734 0.232504 0.237708 0.242952 0.248234 0.253554
+0.258911 0.264305 0.269734 0.275198 0.280695 0.286226 0.291789 0.297383
+0.303007 0.308662 0.314345 0.320056 0.325794 0.331559 0.337348 0.343163
+0.349001 0.354861 0.360744 0.366647 0.372571 0.378514 0.384475 0.390453
+0.396448 0.402459 0.408484 0.414523 0.420575 0.426639 0.432714 0.438799
+0.444893 0.450996 0.457106 0.463222 0.469344 0.47547 0.481601 0.487734
+0.493868 0.500004 0.50614 0.512275 0.518408 0.524538 0.530665 0.536787
+0.542903 0.549013 0.555116 0.56121 0.567295 0.57337 0.579434 0.585485
+0.591524 0.59755 0.60356 0.609555 0.615534 0.621495 0.627437 0.633361
+0.639264 0.645147 0.651007 0.656845 0.66266 0.668449 0.674214 0.679952
+0.685663 0.691346 0.697001 0.702625 0.708219 0.713782 0.719313 0.72481
+0.730274 0.735703 0.741096 0.746453 0.751774 0.757056 0.762299 0.767503
+0.772667 0.777789 0.78287 0.787908 0.792903 0.797854 0.80276 0.80762
+0.812434 0.817201 0.82192 0.82659 0.831212 0.835783 0.840304 0.844774
+0.849192 0.853557 0.857869 0.862127 0.866331 0.870479 0.874572 0.878608
+0.882587 0.886509 0.890372 0.894177 0.897922 0.901607 0.905232 0.908796
+0.912298 0.915738 0.919115 0.92243 0.925681 0.928867 0.931989 0.935046
+0.938038 0.940963 0.943823 0.946615 0.94934 0.951997 0.954586 0.957107
+0.959559 0.961942 0.964255 0.966499 0.968672 0.970774 0.972806 0.974766
+0.976655 0.978472 0.980217 0.98189 0.98349 0.985017 0.986471 0.987852
+0.98916 0.990394 0.991554 0.99264 0.993652 0.994589 0.995452 0.996241
+0.996954 0.997593 0.998157 0.998646 0.999059 0.999398 0.999661 0.99985
+0.999962 1 0.999962 0.999849 0.999661 0.999398 0.999059 0.998645 0.998156
+0.997592 0.996953 0.99624 0.995451 0.994588 0.993651 0.992639 0.991553
+0.990393 0.989159 0.987851 0.98647 0.985016 0.983488 0.981888 0.980215
+0.97847 0.976653 0.974764 0.972804 0.970772 0.96867 0.966496 0.964253
+0.96194 0.959557 0.957105 0.954584 0.951995 0.949337 0.946612 0.94382
+0.940961 0.938035 0.935044 0.931987 0.928864 0.925678 0.922427 0.919113
+0.915735 0.912295 0.908793 0.905229 0.901604 0.897919 0.894174 0.890369
+0.886506 0.882584 0.878605 0.874569 0.870476 0.866328 0.862124 0.857866
+0.853554 0.849189 0.844771 0.840301 0.83578 0.831208 0.826587 0.821916
+0.817197 0.81243 0.807616 0.802756 0.79785 0.7929 0.787905 0.782867
+0.777786 0.772663 0.7675 0.762296 0.757052 0.75177 0.74645 0.741093
+0.735699 0.73027 0.724806 0.719309 0.713778 0.708215 0.702621 0.696997
+0.691342 0.685659 0.679948 0.67421 0.668445 0.662656 0.656841 0.651003
+0.645143 0.63926 0.633357 0.627433 0.62149 0.615529 0.609551 0.603556
+0.597546 0.59152 0.585481 0.579429 0.573365 0.567291 0.561206 0.555111
+0.549009 0.542899 0.536782 0.530661 0.524534 0.518404 0.512271 0.506136
+0.5 0.493864 0.487729 0.481596 0.475466 0.46934 0.463218 0.457101 0.450991
+0.444889 0.438795 0.432709 0.426635 0.420571 0.414519 0.40848 0.402455
+0.396444 0.390449 0.384471 0.37851 0.372567 0.366643 0.36074 0.354857
+0.348997 0.343159 0.337344 0.331555 0.32579 0.320052 0.314341 0.308658
+0.303003 0.297379 0.291785 0.286222 0.280691 0.275194 0.26973 0.264301
+0.258908 0.25355 0.24823 0.242948 0.237705 0.232501 0.227337 0.222214
+0.217133 0.212095 0.2071 0.20215 0.197244 0.192383 0.18757 0.182803
+0.178084 0.173413 0.168791 0.16422 0.159699 0.155229 0.150811 0.146446
+0.142134 0.137876 0.133672 0.129524 0.125431 0.121395 0.117416 0.113494
+0.109631 0.105826 0.102081 0.0983955 0.0947706 0.0912068 0.0877046
+0.0842644 0.0808869 0.0775725 0.0743217 0.071135 0.0680128 0.0649558
+0.0619642 0.0590387 0.0561795 0.0533872 0.0506621 0.0480047 0.0454153
+0.0428945 0.0404424 0.0380596 0.0357463 0.033503 0.0313299 0.0292274
+0.0271958 0.0252354 0.0233465 0.0215293 0.0197842 0.0181115 0.0165113
+0.0149839 0.0135296 0.0121485 0.0108409 0.00960699 0.0084469 0.00736085
+0.00634897 0.00541145 0.0045484 0.00375998 0.0030463 0.00240743 0.00184351
+0.0013546 0.00094083 0.000602156 0.000338733 0.000150532 3.76105e-05
+;
+#X coords 0 1 511 0 200 140 1 0 0;
+#X restore 191 10 graph;
+#X floatatom -20 71 5 0 0 0 - - -;
+#X obj -16 125 cos~;
+#X obj -16 146 +~ 1;
+#X obj -16 167 *~ 0.5;
+#X obj -16 105 phasor~;
+#X obj 19 69 >= 0;
+#X obj 19 85 / 2;
+#X obj -21 51 expr 44100/$f1;
+#X obj -48 -58 t f f, f 9;
+#X obj -44 21 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj -40 202 tabwrite~ \$1_fft_analysis_hann;
+#X obj 4 -38 array size \$1_fft_analysis_hann;
+#X obj -48 -78 r \$1_fft_analysis_windowsize_s;
+#X connect 1 0 5 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 4 0 11 0;
+#X connect 5 0 2 0;
+#X connect 6 0 7 0;
+#X connect 7 0 5 1;
+#X connect 8 0 1 0;
+#X connect 8 0 6 0;
+#X connect 9 0 8 0;
+#X connect 9 0 10 0;
+#X connect 9 1 12 0;
+#X connect 10 0 11 0;
+#X connect 13 0 9 0;
+#X restore 404 105 pd Hann;
+#X obj 478 313 * 0.5;
+#N canvas 653 108 787 643 save 0;
+#X obj 202 250 textfile;
+#X msg 470 188 clear;
+#X obj 205 -33 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj -12 177 t b b b;
+#X msg 118 208 bang;
+#X msg 155 208 rewind;
+#X obj 205 -54 r save_parameters;
+#X obj -11 103 r recall_parameters;
+#X obj 117 -29 loadbang;
+#X obj 117 -6 f \$1;
+#X obj -12 203 f;
+#X obj 204 20 f;
+#X obj 4 141 t b f;
+#X obj 204 0 t b b b, f 63;
+#X obj -11 123 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#N canvas 331 36 1109 763 save 0;
+#X obj 15 412 outlet;
+#X obj 8 204 inlet;
+#X obj 79 236 array get \$1_Spectrum_selection;
+#X obj 79 256 l2s _;
+#X obj 107 289 r \$1_fft_spectrumsel_windowsize_s;
+#X obj 79 325 pack s f f;
+#X msg 79 345 set \$1 \$2 \$3;
+#X obj 146 306 r \$1_fft_spectrumsel_gain_slider_s;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 5 0;
+#X connect 4 0 5 1;
+#X connect 5 0 6 0;
+#X connect 6 0 0 0;
+#X connect 7 0 5 2;
+#X restore 390 129 pd save receives;
+#N canvas 619 126 821 694 save 0;
+#X obj 37 37 inlet;
+#X obj 76 111 s \$1_fft_spectrumsel_windowsize_s;
+#X obj 37 117 s2l _;
+#X obj 37 137 array set \$1_Spectrum_selection;
+#X obj 38 58 unpack s f f;
+#X obj 117 75 s \$1_fft_spectrumsel_gain_slider_r;
+#X connect 0 0 4 0;
+#X connect 2 0 3 0;
+#X connect 4 0 2 0;
+#X connect 4 1 1 0;
+#X connect 4 2 5 0;
+#X restore 202 270 pd save sends;
+#X obj 179 -71 r \$1_fft_spectrumsel_savebutton;
+#X obj -35 85 r \$1_fft_spectrumsel_recallbutton;
+#X msg 204 55 write FFT_Spectrum_selection_\$1.txt;
+#X msg -12 228 read FFT_Spectrum_selection_\$1.txt;
+#X connect 0 0 16 0;
+#X connect 1 0 0 0;
+#X connect 2 0 13 0;
+#X connect 3 0 10 0;
+#X connect 3 1 4 0;
+#X connect 3 2 5 0;
+#X connect 4 0 0 0;
+#X connect 5 0 0 0;
+#X connect 6 0 2 0;
+#X connect 7 0 14 0;
+#X connect 8 0 9 0;
+#X connect 9 0 11 1;
+#X connect 9 0 12 0;
+#X connect 10 0 20 0;
+#X connect 11 0 19 0;
+#X connect 12 0 3 0;
+#X connect 12 1 10 1;
+#X connect 13 0 11 0;
+#X connect 13 1 15 0;
+#X connect 13 2 1 0;
+#X connect 14 0 3 0;
+#X connect 15 0 0 0;
+#X connect 17 0 2 0;
+#X connect 18 0 3 0;
+#X connect 19 0 0 0;
+#X connect 20 0 0 0;
+#X restore 529 124 pd save mechanism;
+#X obj 328 203 bng 15 250 50 0 \$1_fft_spectrumsel_savebutton empty
+Save 17 7 0 5 -262130 -1 -258113;
+#X obj 361 203 bng 15 250 50 0 \$1_fft_spectrumsel_recallbutton empty
+Recall 17 7 0 5 -262130 -1 -258113;
+#X text 354 113 Window;
+#X obj 355 129 bng 15 250 50 0 empty empty empty 17 7 0 10 -261682
+-1 -1;
+#X obj 355 146 bng 15 250 50 0 empty empty empty 17 7 0 10 -261682
+-1 -1;
+#X obj 355 163 bng 15 250 50 0 empty empty empty 17 7 0 10 -261682
+-1 -1;
+#X obj 355 180 bng 15 250 50 0 empty empty empty 17 7 0 10 -261682
+-1 -1;
+#X text 370 128 256;
+#X text 371 147 512;
+#X text 369 164 1024;
+#X text 370 180 2048;
+#X obj 478 333 array size \$1_fft_analysis_table;
+#X obj 478 293 r \$1_fft_analysis_windowsize_s;
+#X obj 478 266 s \$1_fft_analysis_windowsize_s;
+#X obj 431 337 outlet;
+#X obj 185 264 inlet~;
+#N canvas 101 53 795 617 fft-analysis 1;
+#X obj 93 618 *~;
+#X obj 54 618 *~;
+#X obj 413 356 *~;
+#X obj 372 356 *~;
+#X obj 372 379 +~;
+#X obj 54 183 *~;
+#X obj 54 158 inlet~;
+#X obj 54 206 rfft~;
+#X obj 53 667 *~;
+#X obj 141 245 *~;
+#X obj 372 333 rfft~;
+#X obj 53 642 rifft~;
+#X obj 53 690 outlet~;
+#X obj 107 245 *~;
+#X obj 107 268 +~;
+#X text 458 408 modulus;
+#X obj 107 420 *~;
+#X obj 107 398 clip~;
+#X obj 87 184 tabreceive~ \$0-hann;
+#X obj 148 346 r squelch;
+#X obj 147 369 expr 0.01*$f1*$f1;
+#X obj 107 294 +~ 1e-20;
+#X obj 86 667 tabreceive~ \$0-hann;
+#X obj 373 307 *~;
+#X obj 373 282 inlet~;
+#X obj 406 308 tabreceive~ \$0-hann;
+#X obj 107 321 q8_rsqrt~;
+#X obj 372 402 q8_sqrt~;
+#X text 458 425 of control;
+#X text 456 442 amplitude;
+#X text 196 248 reciprocal;
+#X text 199 267 modulus of;
+#X text 195 287 filter input;
+#X text 196 306 amplitude;
+#X text 115 159 filter input;
+#X text 438 282 control source;
+#X text 434 332 Fourier transform;
+#X text 28 17 Internal workings of the timbre stamping algorithm. First
+the "filter input" is treated as in the compressor patch \, multiplying
+each channel amplitude by one over its modulus (but limited by the
+"squelch" parameter.) It is then multiplied by the modulus of the channel
+amplitude for the control source (which is Fourier analyzed in parallel
+with the filter input.);
+#X text 145 422 multiply the two amplitude;
+#X text 143 439 factors (for compression;
+#X text 145 455 and to apply new timbre);
+#X msg 490 189 set \$1 4;
+#X text 539 209 Set Variable window size with overlap of 4;
+#X obj 490 169 r \$1_fft_analysis_windowsize_s;
+#X obj 490 209 switch~;
+#X obj 398 169 r switch_reset;
+#X obj 155 535 r \$1_fft_analysis_windowsize_s;
+#X obj 155 555 *~ 1.5;
+#X obj 107 587 /~;
+#X floatatom 302 562 5 0 0 0 - - -;
+#X floatatom 302 581 5 0 0 0 - - -;
+#X connect 0 0 11 1;
+#X connect 1 0 11 0;
+#X connect 2 0 4 1;
+#X connect 3 0 4 0;
+#X connect 4 0 27 0;
+#X connect 5 0 7 0;
+#X connect 6 0 5 0;
+#X connect 7 0 13 0;
+#X connect 7 0 13 1;
+#X connect 7 0 1 0;
+#X connect 7 1 9 0;
+#X connect 7 1 9 1;
+#X connect 7 1 0 0;
+#X connect 8 0 12 0;
+#X connect 9 0 14 1;
+#X connect 10 0 3 0;
+#X connect 10 0 3 1;
+#X connect 10 1 2 0;
+#X connect 10 1 2 1;
+#X connect 11 0 8 0;
+#X connect 13 0 14 0;
+#X connect 14 0 21 0;
+#X connect 16 0 48 0;
+#X connect 17 0 16 0;
+#X connect 18 0 5 1;
+#X connect 19 0 20 0;
+#X connect 20 0 17 2;
+#X connect 21 0 26 0;
+#X connect 22 0 8 1;
+#X connect 23 0 10 0;
+#X connect 24 0 23 0;
+#X connect 25 0 23 1;
+#X connect 26 0 17 0;
+#X connect 27 0 16 1;
+#X connect 41 0 44 0;
+#X connect 43 0 41 0;
+#X connect 45 0 44 0;
+#X connect 46 0 47 0;
+#X connect 46 0 49 0;
+#X connect 47 0 48 1;
+#X connect 48 0 0 1;
+#X connect 48 0 1 1;
+#X connect 49 0 50 0;
+#X restore 200 288 pd fft-analysis;
+#X floatatom 118 206 0 0 40 0 - squelch-set -;
+#X obj 124 351 s squelch;
+#N canvas 0 110 565 454 hann-window 0;
+#N canvas 0 50 450 300 (subpatch) 0;
+#X array \$0-hann 1024 float 0;
+#X coords 0 1 1023 0 300 100 1;
+#X restore 82 311 graph;
+#X obj 378 165 osc~;
+#X obj 378 190 *~ -0.5;
+#X obj 378 214 +~ 0.5;
+#X obj 331 247 tabwrite~ \$0-hann;
+#X obj 37 88 r window-size;
+#X obj 38 173 /;
+#X obj 127 142 samplerate~;
+#X obj 38 251 s window-sec;
+#X obj 177 204 swap;
+#X obj 177 228 /;
+#X obj 177 252 s window-hz;
+#X obj 49 201 * 1000;
+#X obj 49 228 s window-msec;
+#X obj 38 115 t f b f;
+#X msg 173 92 resize \$1;
+#X obj 173 116 s \$0-hann;
+#X obj 330 105 r window-hz;
+#X msg 382 130 0;
+#X obj 330 131 t f b;
+#X text 15 8 calculate Hann window table (variable window size) and
+constants window-hz (fundamental frequency of analysis) \, window-sec
+and window-msec (analysis window size in seconds and msec).;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 5 0 14 0;
+#X connect 6 0 8 0;
+#X connect 6 0 12 0;
+#X connect 7 0 6 1;
+#X connect 7 0 9 1;
+#X connect 9 0 10 0;
+#X connect 9 1 10 1;
+#X connect 10 0 11 0;
+#X connect 12 0 13 0;
+#X connect 14 0 6 0;
+#X connect 14 0 9 0;
+#X connect 14 1 7 0;
+#X connect 14 2 15 0;
+#X connect 15 0 16 0;
+#X connect 17 0 19 0;
+#X connect 18 0 1 1;
+#X connect 19 0 1 0;
+#X connect 19 1 4 0;
+#X connect 19 1 18 0;
+#X restore 334 455 pd hann-window;
+#X connect 1 0 27 0;
+#X connect 4 0 24 0;
+#X connect 5 0 24 0;
+#X connect 6 0 24 0;
+#X connect 7 0 24 0;
+#X connect 9 0 22 0;
+#X connect 14 0 6 0;
+#X connect 15 0 4 0;
+#X connect 16 0 5 0;
+#X connect 17 0 7 0;
+#X connect 23 0 9 0;
+#X connect 23 0 25 0;
+#X connect 26 0 27 1;
+#X connect 27 0 3 0;
+#X connect 28 0 29 0;
+#X coords 0 -1 1 1 300 130 1 100 100;

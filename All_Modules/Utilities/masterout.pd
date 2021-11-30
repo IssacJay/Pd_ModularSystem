@@ -1,0 +1,56 @@
+#N canvas 365 208 739 512 10;
+#X obj 100 100 cnv 15 180 100 empty empty empty 20 12 0 14 -232576
+-66577 0;
+#X obj 263 246 catch~ mixl;
+#X obj 345 244 catch~ mixr;
+#X obj 263 267 *~ 0.5;
+#X obj 345 266 *~ 0.5;
+#X obj 259 324 *~;
+#X obj 345 319 *~;
+#X obj 106 116 hsl 128 15 0 1 0 0 empty empty Master_Out -2 -8 0 10
+-128992 -1 -1 0 1;
+#X obj 261 391 dac~;
+#X obj 346 396 dac~;
+#X msg 216 362 set \$1;
+#X msg 297 356 set \$1;
+#X obj 104 149 nbx 2 14 -1e+37 1e+37 0 1 empty empty DAC~_L 0 -8 0
+10 -228856 -1 -1 1 256;
+#X obj 181 149 nbx 2 14 -1e+37 1e+37 0 1 empty empty DAC~_R 0 -8 0
+10 -228856 -1 -1 2 256;
+#X obj 253 110 vu 15 80 empty empty -1 -8 0 10 -66577 -1 0 0;
+#X obj 386 289 env~;
+#X obj 386 309 - 100;
+#X obj 72 425 dac~;
+#X obj 117 425 dac~;
+#X msg 74 395 set \$1;
+#X msg 125 395 set \$1;
+#X obj 104 181 nbx 2 14 -1e+37 1e+37 0 1 empty empty DAC~_L_send 0
+-8 0 10 -228856 -1 -1 7 256;
+#X obj 181 181 nbx 2 14 -1e+37 1e+37 0 1 empty empty DAC~_R_send 0
+-8 0 10 -228856 -1 -1 8 256;
+#X text 287 110 Output level;
+#X text 105 76 Master output slider;
+#X text -76 146 Select main L and R channel;
+#X text -148 181 Select secondary L and R output channel;
+#X connect 1 0 3 0;
+#X connect 2 0 4 0;
+#X connect 3 0 5 0;
+#X connect 4 0 6 0;
+#X connect 4 0 15 0;
+#X connect 5 0 8 0;
+#X connect 5 0 17 0;
+#X connect 6 0 9 0;
+#X connect 6 0 18 0;
+#X connect 7 0 5 1;
+#X connect 7 0 6 1;
+#X connect 10 0 8 0;
+#X connect 11 0 9 0;
+#X connect 12 0 10 0;
+#X connect 13 0 11 0;
+#X connect 15 0 16 0;
+#X connect 16 0 14 0;
+#X connect 19 0 17 0;
+#X connect 20 0 18 0;
+#X connect 21 0 19 0;
+#X connect 22 0 20 0;
+#X coords 0 -1 1 1 180 100 2 100 100;

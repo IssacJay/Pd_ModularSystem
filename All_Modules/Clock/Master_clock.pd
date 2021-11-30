@@ -1,0 +1,82 @@
+#N canvas 554 217 581 516 10;
+#X obj 425 105 metro 200;
+#X obj 425 75 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X floatatom 475 51 5 0 0 0 - - -;
+#X obj 476 70 expr ((60/$f2)*1000);
+#X text 525 48 BPM;
+#X obj 426 163 f;
+#X obj 426 183 mod 4;
+#X obj 473 164 + 1;
+#X floatatom 426 227 5 0 0 0 - - -;
+#X obj 426 203 + 1;
+#X text 471 225 BEAT COUNTER;
+#X obj 427 291 sel 1;
+#X obj 428 314 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 456 314 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 458 337 500;
+#X obj 429 337 700;
+#X obj 431 364 osc~;
+#X obj 431 398 *~;
+#X obj 335 350 vline~, f 5;
+#X text 494 337 GLOCK AND CLOCK;
+#X msg 328 290 1 15 \, 0 10 50;
+#X floatatom 517 170 5 0 0 0 - - -;
+#X floatatom 325 151 5 0 0 0 - - -;
+#X obj 305 -74 bonk~;
+#X obj 306 13 timer;
+#X floatatom 306 32 20 0 0 0 - - -;
+#X obj 306 -53 t b b;
+#X obj 431 418 dac~;
+#X obj 306 51 change;
+#X obj 305 -94 adc~ 7;
+#X obj 100 100 cnv 15 120 100 empty empty empty 20 12 0 14 -228856
+-66577 0;
+#X text 102 100 Master Clock;
+#X obj 100 117 vradio 15 1 0 2 empty empty empty 0 -8 0 10 -204786
+-1 -1 1;
+#X text 117 115 Set;
+#X text 118 132 Recieve from DAW;
+#X obj 162 116 nbx 4 14 -1e+37 1e+37 0 1 \$0_masterclock_set_s \$0_masterclock_set_r
+empty 0 -8 0 10 -204786 -1 -1 120 256;
+#X obj 103 150 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-204786 -1 -1 0 256;
+#X text 132 150 ADC~ input;
+#X obj 103 181 bng 15 250 50 0 empty empty Help 17 7 0 10 -203904 -1
+-1;
+#X obj 163 181 tgl 15 0 \$0_masterclock_on/off_s \$0_masterclock_on/off_r
+On/Off 17 7 0 10 -262130 -1 -1 0 1;
+#X connect 0 0 5 0;
+#X connect 1 0 0 0;
+#X connect 2 0 3 1;
+#X connect 2 0 3 0;
+#X connect 3 0 0 1;
+#X connect 5 0 6 0;
+#X connect 5 0 7 0;
+#X connect 5 0 22 0;
+#X connect 6 0 9 0;
+#X connect 7 0 5 1;
+#X connect 8 0 11 0;
+#X connect 8 0 20 0;
+#X connect 9 0 8 0;
+#X connect 11 0 12 0;
+#X connect 11 1 13 0;
+#X connect 12 0 15 0;
+#X connect 13 0 14 0;
+#X connect 14 0 16 0;
+#X connect 15 0 16 0;
+#X connect 16 0 17 0;
+#X connect 17 0 27 0;
+#X connect 18 0 17 1;
+#X connect 20 0 18 0;
+#X connect 21 0 6 1;
+#X connect 23 0 26 0;
+#X connect 24 0 25 0;
+#X connect 25 0 28 0;
+#X connect 26 0 24 0;
+#X connect 26 1 24 1;
+#X connect 28 0 0 1;
+#X connect 29 0 23 0;
+#X coords 0 -1 1 1 120 100 2 100 100;
